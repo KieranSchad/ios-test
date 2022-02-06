@@ -1,15 +1,361 @@
-div {
-    width: 80%;
-    height: 20vh;
-    margin: 2rem;
-    background-color: #999;
-    text-align: center;
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+:root {
+    --element-border-radius: 0.5rem;
+    --element-background: rgba(255, 255, 255, 0.6);
+    --active-background: rgba(255, 255, 255, 0.8);
+    --fullscreen-background: #c7b294;
+    --fullscreen-text-color: #13253b;
+    --color-one: rgba(219,177,99,1);
+    --color-two: rgba(81,48,21,1);
+    --text-color: #555;
+    --print-font: 'Libre Baskerville', serif;
+    --control-font: 'Roboto', sans-serif;
+  }
+
+  html {
+    background: linear-gradient(180deg, var(--color-one) 0%, var(--color-two) 100%);
+    font-size: 16px;
+  }
+
+.wrapper {
+    width: 100%;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--print-font);
+    color: var(--text-color);
+    
 }
 
 button {
     all: unset;
+    font-family: var(--control-font);
+    cursor: pointer;
+}
+
+label {
+    all: unset;
+}
+
+h1 {
+    font-size: 1.2rem;
+    font-family: var(--print-font);
+    margin: 0.5rem 0.25rem;
+}
+
+h2 {
+    font-size: 1rem;
+    font-family: var(--print-font);
+    margin: 0.5rem 0.25rem;
+}
+
+h3 {
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: var(--print-font);
+    margin: 0.25rem 0.25rem;
 }
 
 a {
     all: unset;
+    display: block;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#book-panel h1, 
+#book-panel h2,
+#book-panel h3,
+#book-panel .chapters-buttons {
+    padding: 0.5rem 0;
+}
+
+.nav-bar,
+.control-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.control-bar {
+    width: calc(100% + 8px);
+}
+
+.tab,
+.button {
+    flex: 0.25;
+    height: 48px;
+    background: var(--element-background);
+    border-radius: var(--element-border-radius);
+    margin: 4px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 16px;
+    font-family: var(--control-font);
+    color: var(--color-one);
+}
+
+.control-bar .button {
+    color: var(--color-two);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.active.tab {
+    background: var(--active-background);
+}
+
+.panel {
+    display: none;
+    width: 100%;
+    height: calc(calc(var(--vh, 1vh) * 100) - 64px);
+    flex-direction: column;
+    align-items: center;
+    padding: 0 4px;
+    
+}
+
+.active.panel {
+    display: flex;
+}
+
+.search {
+    width: 100%;
+    position: relative;
+}
+
+#search-bar {
+    width: 100%;
+    height: 3rem;
+    border: none;
+    border-radius: var(--element-border-radius);
+    background: var(--element-background);
+    margin: 0.25rem 0;
+    padding: 1rem;
+    font-size: 1rem;
+    font-family: var(--control-font);
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+#search-bar::placeholder {
+    color: var(--color-one);
+    max-width: 80vw;
+}
+
+#search-bar:focus {
+    background: var(--active-background);
+    outline: none;
+}
+
+.fas.fa-times {
+    position:absolute;
+    right: 0.5rem;
+    top: 0.625rem;
+    padding: 0.5rem;
+    color: var(--color-one);
+    font-size: 1.5rem;
+}
+
+#chapter-list,
+#library-list,
+#book-list {
+    width: 100%;
+    height: 100%;
+    margin: 4px 0;
+    overflow-y: scroll;
+}
+
+#book-list::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+}
+
+.card {
+    width: 100%;
+    min-height: 8rem;
+    border-radius: var(--element-border-radius);
+    background: var(--element-background);
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+#book-panel .card {
+    /* text-align: center; */
+    min-height: 100%;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.book-buttons,
+.library-buttons,
+.download-buttons {
+    display: none;
+    margin: 0 -0.25rem;
+
+}
+
+.book-buttons,
+.card.active .download-buttons,
+.card.active .library-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.issued,
+.sub-title {
+    display: none;
+}
+
+#book-panel .issued,
+#book-panel .sub-title,
+.card.active .issued,
+.card.active .sub-title {
+    display: block;
+}
+
+.book-buttons .button,
+.library-buttons .button,
+.download-buttons .button {
+    display: inline-block;
+    width: 3rem;
+    height: 50px;
+    color: var(--text-color);
+    font-size: 20px;
+    line-height: 50px;
+    flex: 1;
+}
+
+.author {
+    cursor: pointer;
+}
+
+.subjects {
+    max-height: 3.25rem;
+    margin: 0 -0.25rem;
+    overflow-y: hidden;
+}
+
+#book-panel .subjects,
+.card.active .subjects {
+    max-height: fit-content;
+}
+
+.tag {
+    display: inline-block;
+    border-radius: var(--element-border-radius);
+    background: var(--element-background);
+    margin: 0.15rem 0.25rem;
+    padding: 0.1rem 0.25rem;
+}
+
+.chapterButton {
+    display: block;
+    width: calc(100% - 1.5rem);
+    padding: 0.5rem;
+    margin: 0.5rem 0.25rem;
+    font-family: var(--print-font);
+    background: var(--element-background);
+    border-radius: var(--element-border-radius);
+    font-size: 1.1rem;
+    line-height: 1.9;
+}
+
+#page {
+    width: 100%;
+    height: 100%;
+    margin: 4px 0;
+    padding: 1rem;
+    background: var(--element-background);
+    border-radius: var(--element-border-radius);
+    overflow-x: hidden;
+    white-space:normal;
+    font-size: 1.1rem;
+    line-height: 1.9rem;
+}
+
+.control-bar label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#fileInput {
+    display: none;
+}
+
+#page .center,
+#page h1,
+#page h2,
+#page h3,
+#page h4 {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+#page div {
+    width: 100%;
+    padding: 1rem 0;
+}
+
+#page pre {
+    padding: 1rem 0;
+    white-space:pre-line;
+    font-family: var(--print-font);
+    font-style: italic;
+}
+
+#page i {
+    padding: 1rem 0;
+    font-family: var(--print-font);
+    font-style: italic;
+}
+
+#page img {
+    width: 100%;
+    border-radius: var(--element-border-radius);
+    margin: 1rem 0;
+}
+
+#page hr {
+    all: unset;
+    display: block;
+    height: 5rem;
+}
+
+#page a {
+    text-align: center;
+}
+
+
+#page:-webkit-full-screen {
+    background: var(--fullscreen-background);
+    color: var(--fullscreen-text-color);
+    border-radius: 0;
+}
+
+#page:-ms-fullscreen {
+    background: var(--fullscreen-background);
+    color: var(--fullscreen-text-color);
+    border-radius: 0;
+}
+
+#page:fullscreen {
+    background: var(--fullscreen-background);
+    color: var(--fullscreen-text-color);
+    border-radius: 0;
 }
