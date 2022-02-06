@@ -445,40 +445,40 @@ function tabClick(id) {
 
 // ---------  User Inputs  ------------
 
-const eventMap = {
-    // tag: { click: tagSearch },
-    // author: { click: authorSearch },
-    // clear: { click: clearSearch },
-    // card: { click: focusCard },
-    // "card active": { click: focusCard },
-    // "read-button": { click: loadBook },
-    // "delete-button": { click: deleteBook },
-    // "start-button": { click: loadPage },
-    // "full-screen-button": { click: enterFullScreen },
-    // "previous-book-button": { click: previousBook },
-    // "next-book-button": { click: nextBook },
-    tab: { click: tabClick }
-}
+// const eventMap = {
+//     // tag: { click: tagSearch },
+//     // author: { click: authorSearch },
+//     // clear: { click: clearSearch },
+//     // card: { click: focusCard },
+//     // "card active": { click: focusCard },
+//     // "read-button": { click: loadBook },
+//     // "delete-button": { click: deleteBook },
+//     // "start-button": { click: loadPage },
+//     // "full-screen-button": { click: enterFullScreen },
+//     // "previous-book-button": { click: previousBook },
+//     // "next-book-button": { click: nextBook },
+//     tab: { click: tabClick }
+// }
 
-function eventHandler(ev) {
-// Check if class is in event map
-    if (ev.target.className in eventMap && ev.type in eventMap[ev.target.className]) {
-        eventMap[ev.target.className][ev.type](ev.target.id);
-// Check if id is in event map
-    } else if (ev.target.id in eventMap && ev.type in eventMap[ev.target.id]) {
-        eventMap[ev.target.id][ev.type](ev);
-// Check if parent's class is in event map
-    } else if (ev.target.parentElement.className in eventMap && ev.type in eventMap[ev.target.parentElement.className]) {
-        eventMap[ev.target.parentElement.className][ev.type](ev.target.parentElement.id);
-// Check if keyboard key is in event map
-    } else if (ev.key in eventMap && ev.type in eventMap[ev.key]) {
-        eventMap[ev.key][ev.type]();
-    }
-}
+// function eventHandler(ev) {
+// // Check if class is in event map
+//     if (ev.target.className in eventMap && ev.type in eventMap[ev.target.className]) {
+//         eventMap[ev.target.className][ev.type](ev.target.id);
+// // Check if id is in event map
+//     } else if (ev.target.id in eventMap && ev.type in eventMap[ev.target.id]) {
+//         eventMap[ev.target.id][ev.type](ev);
+// // Check if parent's class is in event map
+//     } else if (ev.target.parentElement.className in eventMap && ev.type in eventMap[ev.target.parentElement.className]) {
+//         eventMap[ev.target.parentElement.className][ev.type](ev.target.parentElement.id);
+// // Check if keyboard key is in event map
+//     } else if (ev.key in eventMap && ev.type in eventMap[ev.key]) {
+//         eventMap[ev.key][ev.type]();
+//     }
+// }
 
-['click', 'keydown', 'keyup'].forEach((eventType) => {
-    document.body.addEventListener(eventType, eventHandler);
-})
+// ['click', 'keydown', 'keyup'].forEach((eventType) => {
+//     document.body.addEventListener(eventType, eventHandler);
+// })
 
 searchBar.addEventListener('input', searchFunction);
 // document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
