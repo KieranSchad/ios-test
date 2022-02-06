@@ -223,22 +223,23 @@ const searchBar = document.getElementById("search-bar");
 //     }
 // }
 
-// function searchFunction(e) {
-//     const inputValue = e.target.value
-//         .toLowerCase().split(" ")
-//         .filter(item => item) ;
-//     let searchResult = [];
-//     for (let i = 0; i < database.length && searchResult.length < 100; i++) {
-//         const bookData = Object.values(database[i]).join(" ").toLowerCase();
-//         if (inputValue.every(el => bookData.includes(el))) {
-//             searchResult.push({...database[i]});
+function searchFunction(e) {
+    alert("search");
+    // const inputValue = e.target.value
+    //     .toLowerCase().split(" ")
+    //     .filter(item => item) ;
+    // let searchResult = [];
+    // for (let i = 0; i < database.length && searchResult.length < 100; i++) {
+    //     const bookData = Object.values(database[i]).join(" ").toLowerCase();
+    //     if (inputValue.every(el => bookData.includes(el))) {
+    //         searchResult.push({...database[i]});
             
-//         } 
-//     }
-//     // timeoutId = 0;
-//     toHtml(searchResult, bookList);
+    //     } 
+    // }
+    // // timeoutId = 0;
+    // toHtml(searchResult, bookList);
 
-// }
+}
 
 // function authorSearch(inputValue) {
 //     let authorSearchResult = [];
@@ -479,7 +480,7 @@ function eventHandler(ev) {
     document.body.addEventListener(eventType, eventHandler);
 })
 
-// searchBar.addEventListener('input', searchFunction);
+searchBar.addEventListener('input', searchFunction);
 // document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 // window.addEventListener('load', getLocalLibrary);
 // window.addEventListener("load", () => setTimeout(function(){
