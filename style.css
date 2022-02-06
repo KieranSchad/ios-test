@@ -2,6 +2,14 @@ div {
     width: 80%;
     height: 20vh;
     margin: 2rem;
-    background-color: aquamarine;
+    background-color: #999;
     text-align: center;
+}
+
+button {
+    all: unset;
+}
+
+a {
+    all: unset;
 }
