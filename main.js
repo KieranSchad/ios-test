@@ -212,16 +212,16 @@ const searchBar = document.getElementById("search-bar");
 
 // ---------  Search  ------------
 
-let timeoutId = 0;
+// let timeoutId = 0;
 
-function searchWithDelay(e) {
-    if (timeoutId == 0) {
-        timeoutId = setTimeout(searchFunction, 20, e);
-    } else {
-        clearTimeout(timeoutId);
-        timeoutId = 0;
-    }
-}
+// function searchWithDelay(e) {
+//     if (timeoutId == 0) {
+//         timeoutId = setTimeout(searchFunction, 20, e);
+//     } else {
+//         clearTimeout(timeoutId);
+//         timeoutId = 0;
+//     }
+// }
 
 function searchFunction(e) {
     const inputValue = e.target.value
@@ -235,7 +235,7 @@ function searchFunction(e) {
             
         } 
     }
-    timeoutId = 0;
+    // timeoutId = 0;
     toHtml(searchResult, bookList);
 
 }
@@ -479,7 +479,7 @@ function eventHandler(ev) {
     document.body.addEventListener(eventType, eventHandler);
 })
 
-searchBar.addEventListener('input', searchWithDelay);
+searchBar.addEventListener('input', searchFunction);
 // document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 // window.addEventListener('load', getLocalLibrary);
 // window.addEventListener("load", () => setTimeout(function(){
