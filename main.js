@@ -479,7 +479,7 @@ function eventHandler(ev) {
     document.body.addEventListener(eventType, eventHandler);
 })
 
-searchBar.addEventListener('input', searchFunction);
+// searchBar.addEventListener('input', searchFunction);
 // document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 // window.addEventListener('load', getLocalLibrary);
 // window.addEventListener("load", () => setTimeout(function(){
