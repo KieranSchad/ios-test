@@ -1,18 +1,18 @@
 
 // ---------  Get Gutenberg Project catalog  ------------
 
-import database from "./pg_caralog_2022_01_28.json" assert { type: "json" };
+// import database from "./pg_caralog_2022_01_28.json" assert { type: "json" };
 
 // ---------  Get frequently used elements  ------------
 
-const tab = document.getElementsByClassName('tab');
-const panel = document.getElementsByClassName('panel');
-const bookList = document.getElementById("book-list");
-const libraryList = document.getElementById("library-list");
-const chapterList = document.getElementById("chapter-list");
-let card = document.getElementsByClassName('card');
-const page = document.getElementById('page');
-const html = document.getElementById('html');
+// const tab = document.getElementsByClassName('tab');
+// const panel = document.getElementsByClassName('panel');
+// const bookList = document.getElementById("book-list");
+// const libraryList = document.getElementById("library-list");
+// const chapterList = document.getElementById("chapter-list");
+// let card = document.getElementsByClassName('card');
+// const page = document.getElementById('page');
+// const html = document.getElementById('html');
 const searchBar = document.getElementById("search-bar");
 
 // ---------  Resize Height  ------------
@@ -412,12 +412,12 @@ function searchFunction(e) {
 
 // ---------  Panel Navigation  ------------
 
-function tabClick(id) {
-    Array.from(tab).forEach((item) => {item.classList.remove("active")});
-    Array.from(panel).forEach((item) => {item.classList.remove("active")});
-    document.getElementById(id).classList.add("active");
-    document.getElementById(id.replace("tab", "panel")).classList.add("active");
-}
+// function tabClick(id) {
+//     Array.from(tab).forEach((item) => {item.classList.remove("active")});
+//     Array.from(panel).forEach((item) => {item.classList.remove("active")});
+//     document.getElementById(id).classList.add("active");
+//     document.getElementById(id.replace("tab", "panel")).classList.add("active");
+// }
 
 // ---------  Book Navigation  ------------
 
