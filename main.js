@@ -1,12 +1,17 @@
 
 // ---------  Get Gutenberg Project catalog  ------------
 
-import database from "./pg_caralog_2022_01_28.json" assert { type: "json" };
+fetch("https://kieranschad.github.io/e-book/library/pg_caralog_2022_01_28.json")
+    .then(res => (res.json())
+    .then(data => {
+        // database = data
+        alert("fetch success");
+    }))
 
 // ---------  Get frequently used elements  ------------
 
-// const tab = document.getElementsByClassName('tab');
-// const panel = document.getElementsByClassName('panel');
+const tab = document.getElementsByClassName('tab');
+const panel = document.getElementsByClassName('panel');
 // const bookList = document.getElementById("book-list");
 // const libraryList = document.getElementById("library-list");
 // const chapterList = document.getElementById("chapter-list");
@@ -17,12 +22,13 @@ const searchBar = document.getElementById("search-bar");
 
 // ---------  Resize Height  ------------
 
-// function resizeHeight() {
-//     let vh = window.innerHeight * 0.01 - 0.001;
-//     document.documentElement.style.setProperty('--vh', `${vh}px`);
-// }
+function resizeHeight() {
+    let vh = window.innerHeight * 0.01 - 0.001;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    alert("resize success");
+}
 
-// resizeHeight();
+resizeHeight();
 
 // ---------  library  ------------
 
@@ -224,8 +230,8 @@ const searchBar = document.getElementById("search-bar");
 // }
 
 function searchFunction(e) {
-    alert("search");
-    // const inputValue = e.target.value
+    const inputValue = e.target.value
+    alert(inputValue);
     //     .toLowerCase().split(" ")
     //     .filter(item => item) ;
     // let searchResult = [];
@@ -412,12 +418,13 @@ function searchFunction(e) {
 
 // ---------  Panel Navigation  ------------
 
-// function tabClick(id) {
-//     Array.from(tab).forEach((item) => {item.classList.remove("active")});
-//     Array.from(panel).forEach((item) => {item.classList.remove("active")});
-//     document.getElementById(id).classList.add("active");
-//     document.getElementById(id.replace("tab", "panel")).classList.add("active");
-// }
+function tabClick(id) {
+    Array.from(tab).forEach((item) => {item.classList.remove("active")});
+    Array.from(panel).forEach((item) => {item.classList.remove("active")});
+    document.getElementById(id).classList.add("active");
+    document.getElementById(id.replace("tab", "panel")).classList.add("active");
+    alert(id);
+}
 
 // ---------  Book Navigation  ------------
 
@@ -445,40 +452,40 @@ function searchFunction(e) {
 
 // ---------  User Inputs  ------------
 
-// const eventMap = {
-//     // tag: { click: tagSearch },
-//     // author: { click: authorSearch },
-//     // clear: { click: clearSearch },
-//     // card: { click: focusCard },
-//     // "card active": { click: focusCard },
-//     // "read-button": { click: loadBook },
-//     // "delete-button": { click: deleteBook },
-//     // "start-button": { click: loadPage },
-//     // "full-screen-button": { click: enterFullScreen },
-//     // "previous-book-button": { click: previousBook },
-//     // "next-book-button": { click: nextBook },
-//     tab: { click: tabClick }
-// }
+const eventMap = {
+    // tag: { click: tagSearch },
+    // author: { click: authorSearch },
+    // clear: { click: clearSearch },
+    // card: { click: focusCard },
+    // "card active": { click: focusCard },
+    // "read-button": { click: loadBook },
+    // "delete-button": { click: deleteBook },
+    // "start-button": { click: loadPage },
+    // "full-screen-button": { click: enterFullScreen },
+    // "previous-book-button": { click: previousBook },
+    // "next-book-button": { click: nextBook },
+    tab: { click: tabClick }
+}
 
-// function eventHandler(ev) {
-// // Check if class is in event map
-//     if (ev.target.className in eventMap && ev.type in eventMap[ev.target.className]) {
-//         eventMap[ev.target.className][ev.type](ev.target.id);
-// // Check if id is in event map
-//     } else if (ev.target.id in eventMap && ev.type in eventMap[ev.target.id]) {
-//         eventMap[ev.target.id][ev.type](ev);
-// // Check if parent's class is in event map
-//     } else if (ev.target.parentElement.className in eventMap && ev.type in eventMap[ev.target.parentElement.className]) {
-//         eventMap[ev.target.parentElement.className][ev.type](ev.target.parentElement.id);
-// // Check if keyboard key is in event map
-//     } else if (ev.key in eventMap && ev.type in eventMap[ev.key]) {
-//         eventMap[ev.key][ev.type]();
-//     }
-// }
+function eventHandler(ev) {
+// Check if class is in event map
+    if (ev.target.className in eventMap && ev.type in eventMap[ev.target.className]) {
+        eventMap[ev.target.className][ev.type](ev.target.id);
+// Check if id is in event map
+    } else if (ev.target.id in eventMap && ev.type in eventMap[ev.target.id]) {
+        eventMap[ev.target.id][ev.type](ev);
+// Check if parent's class is in event map
+    } else if (ev.target.parentElement.className in eventMap && ev.type in eventMap[ev.target.parentElement.className]) {
+        eventMap[ev.target.parentElement.className][ev.type](ev.target.parentElement.id);
+// Check if keyboard key is in event map
+    } else if (ev.key in eventMap && ev.type in eventMap[ev.key]) {
+        eventMap[ev.key][ev.type]();
+    }
+}
 
-// ['click', 'keydown', 'keyup'].forEach((eventType) => {
-//     document.body.addEventListener(eventType, eventHandler);
-// })
+['click', 'keydown', 'keyup'].forEach((eventType) => {
+    document.body.addEventListener(eventType, eventHandler);
+})
 
 searchBar.addEventListener('input', searchFunction);
 // document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
