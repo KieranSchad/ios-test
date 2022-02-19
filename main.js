@@ -1,154 +1,166 @@
 
-// ---------  Get Gutenberg Project catalog  ------------
+
+// ---------  Get frequently used elements  ------------
 let database;
+const tab = document.getElementsByClassName('tab');
+const pageTab = document.getElementById('page-tab');
+const panel = document.getElementsByClassName('panel');
+const settingsPanel = document.getElementById('settings-panel');
+const settingsButton = document.getElementById('settings-button');
+const bookList = document.getElementById("book-list");
+const libraryList = document.getElementById("library-list");
+const chapterList = document.getElementById("chapter-list");
+let card = document.getElementsByClassName('card');
+const page = document.getElementById('page');
+const fullscreenWrapper = document.getElementById('fullscreen-wrapper');
+const html = document.getElementById('html');
+const searchBar = document.getElementById("search-bar");
+const fontSlider = document.getElementById("font-slider");
+const colorSlider = document.getElementById("color-slider");
+const brightnessSlider = document.getElementById("brightness-slider");
+
+
+// ---------  Get Gutenberg Project catalog  ------------
+
+// import database from "./pg_caralog_2022_01_28.json" assert { type: "json" };
+
+
+// Header always set Access-Control-Allow-Origin "https://kieranschad.github.io/e-book/"
+// Header always set Access-Control-Allow-Origin "*"
+
 fetch("https://kieranschad.github.io/e-book/library/pg_caralog_2022_01_28.json")
     .then(res => (res.json())
     .then(data => {
         database = data
-        alert("fetch success");
+        onLoad();
     }))
 
-// ---------  Get frequently used elements  ------------
-
-const tab = document.getElementsByClassName('tab');
-const panel = document.getElementsByClassName('panel');
-const bookList = document.getElementById("book-list");
-// const libraryList = document.getElementById("library-list");
-// const chapterList = document.getElementById("chapter-list");
-// let card = document.getElementsByClassName('card');
-// const page = document.getElementById('page');
-// const html = document.getElementById('html');
-const searchBar = document.getElementById("search-bar");
 
 // ---------  Resize Height  ------------
 
 function resizeHeight() {
     let vh = window.innerHeight * 0.01 - 0.001;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
-    alert("resize success");
+    // paginate();
 }
 
 resizeHeight();
 
-// ---------  library  ------------
+// ---------  Browse tags  ------------
 
-// let displayLibrary = [];
-// let htmlLibrary = [];
 
-// // ---------  Get local library  ------------
+// ---------  Get Index from Number  ------------
 
-// function getLocalLibrary() {
-//     if (localStorage.getItem("displayLibrary") && localStorage.getItem("htmlLibrary")) {
-//         displayLibrary = JSON.parse(localStorage.getItem("displayLibrary"));
-//         htmlLibrary = JSON.parse(localStorage.getItem("htmlLibrary"));
-
-//     } else {
-//         fetch('./library/12-h.htm', {mode: 'no-cors'})
-//             .then(response => response.text())
-//             .then(data=> htmlLibrary[0] = data)
-//             .catch(error => console.error(error));
-            
-//         fetch('./library/61.txt', {mode: 'no-cors'})
-//             .then(response => response.text())
-//             .then(data=> htmlLibrary[1] = data)
-//             .catch(error => console.error(error));
-
-//         fetch('./library/76-h.htm', {mode: 'no-cors'})
-//             .then(response => response.text())
-//             .then(data=> htmlLibrary[2] = data)
-//             .catch(error => console.error(error));
-
-//         displayLibrary = [ {
-//             "Text#": 12,
-//             "Type": "Text",
-//             "Issued": "2008-06-25",
-//             "Title": "Through the Looking-Glass",
-//             "Language": "en",
-//             "Authors": "Carroll, Lewis, 1832-1898",
-//             "Subjects": "Fantasy fiction; Children's stories; Imaginary places -- Juvenile fiction; Alice (Fictitious character from Carroll) -- Juvenile fiction",
-//             "LoCC": "PR; PZ",
-//             "Bookshelves": "Best Books Ever Listings; Children's Literature"
-//             },
-//             {
-//             "Text#": 61,
-//             "Type": "Text",
-//             "Issued": "2005-01-25",
-//             "Title": "The Communist Manifesto",
-//             "Language": "en",
-//             "Authors": "Engels, Friedrich, 1820-1895; Marx, Karl, 1818-1883",
-//             "Subjects": "Socialism; Communism",
-//             "LoCC": "HX",
-//             "Bookshelves": "Politics; Philosophy; Banned Books from Anne Haight's list"
-//             },
-//             {
-//             "Text#": 76,
-//             "Type": "Text",
-//             "Issued": "2004-06-29",
-//             "Title": "Adventures of Huckleberry Finn",
-//             "Language": "en",
-//             "Authors": "Twain, Mark, 1835-1910; Kemble, E. W. (Edward Windsor), 1861-1933 [Illustrator]",
-//             "Subjects": "Humorous stories; Bildungsromans; Boys -- Fiction; Male friendship -- Fiction; Adventure stories; Missouri -- Fiction; Race relations -- Fiction; Runaway children -- Fiction; Finn, Huckleberry (Fictitious character) -- Fiction; Fugitive slaves -- Fiction; Mississippi River -- Fiction",
-//             "LoCC": "PS",
-//             "Bookshelves": "Best Books Ever Listings; Banned Books from Anne Haight's list; Banned Books List from the American Library Association"
-//             } ];
-//     }
+// function getIndexFromNumber(number) {
+//     return database.map((book) => parseInt(Object.values(book)[0], 10)).indexOf(parseInt(number, 10));
 // }
 
-// ---------  Upload  ------------
+// // ---------  Get Number from Index  ------------
 
-// function handleFileSelect(event) {
-//     const bookId = parseInt(event.target.files[0].name.match(/\d+(?=((-\w)*\.(htm|txt)))/i), 10)   //match number in filename, lookahead to extension
-//     if (database.some((book) => Object.values(book)[0] == bookId)) {
-//         const bookIndex = database.map((book) => parseInt(Object.values(book)[0], 10)).indexOf(bookId);
-//         displayLibrary.push(database[bookIndex]);
-//         const reader = new FileReader();
-//         reader.onload = handleFileLoad;
-//         reader.readAsText(event.target.files[0])
-//         card = document.getElementsByClassName('card');
-//     } else {
-//         alert("File does not match any books in the database")
-//     }
+// function getNumberFromIndex(index) {
+//     return Object.values(database[index])[0];
+// }
 
-//   }
-  
-//   function handleFileLoad(event) {
-//     htmlLibrary.push(event.target.result);
-//     localStorage.setItem("displayLibrary", JSON.stringify(displayLibrary))
-//     localStorage.setItem("htmlLibrary", JSON.stringify(htmlLibrary));
-//     showLibrary();;
-//   }
+// // ---------  Get Library  ------------
+
+// let libraryArray = [
+//     {number: 11, bookMark: 0}, 
+//     {number: 2600, bookMark: 0}, 
+//     {number: 1399, bookMark: 0},
+//     {number: 15, bookMark: 0},
+//     {number: 76, bookMark: 0},
+//     {number: 24, bookMark: 0}
+// ];
+
+// if (localStorage.getItem("libraryArray")) {
+//     libraryArray = JSON.parse(localStorage.getItem("libraryArray"));
+// }
+
 // function showLibrary() {
-//     toHtml(displayLibrary, libraryList);
+//     let libraryObjectArray = libraryArray.map(obj => database[getIndexFromNumber(obj.number)])
+//     toHtml(libraryObjectArray, libraryList);
 // }
 
-// ---------  Find book Id and Index for selected book  ------------
 
-// function findLibraryIndex(e) {
-//     const bookId = parseInt(e.target.parentElement.parentElement.id.slice(7), 10);
-//     const bookIndex = displayLibrary.map((book) => parseInt(Object.values(book)[0], 10)).indexOf(bookId);
-//     return [bookId, bookIndex];
+// // ---------  Get Book  ------------
+
+// let currentBook = -1;
+// let libraryIndex;
+// let bookData = "<h2>Loading...</h2>";
+// if (localStorage.getItem("currentBook")) {
+//     currentBook = localStorage.getItem("currentBook");
+//     libraryIndex = getLibraryIndex(currentBook);
+// }
+
+
+
+
+// function getBook(e, bookNumber, goToPanel) {
+//     if (e) {
+//         bookNumber = parseInt(e.target.parentElement.parentElement.id.slice(7), 10);
+//     }
+//     let bookIndex = getIndexFromNumber(bookNumber);
+//     currentBook = bookNumber;
+//     localStorage.setItem("currentBook", currentBook);
+//     libraryIndex = getLibraryIndex(currentBook);
+//     if (libraryIndex >= 0) {
+//         bookMark = libraryArray[libraryIndex].bookMark;
+//     }
+
+
+//     fetch(`/library/htm/${bookNumber}-h.htm`)
+//         .then(res => {
+//             if (res.ok) {
+//                 res.text()
+//                     .then((data) => {
+//                         bookData = data;
+//                         loadBook(bookIndex, goToPanel);
+//                         // loadPage(false, currentBook, "stay");
+//                     })
+//             } else {
+//                 fetch(`/library/html/${bookNumber}.html`)
+//                     .then(res => {
+//                         if (res.ok) {
+//                             res.text()
+//                                 .then((data) => {
+//                                     bookData = data;
+//                                     loadBook(bookIndex, goToPanel);
+//                                     // loadPage(false, currentBook, "stay");
+//                                 })
+//                         } else {
+//                             fetch(`/library/txt/${bookNumber}.txt`)
+//                                 .then(res => {
+//                                     if (res.ok) {
+//                                         res.text()
+//                                             .then((data) => {
+//                                                 bookData = data;
+//                                                 loadBook(bookIndex, goToPanel);
+//                                                 // loadPage(false, currentBook, "stay");
+//                                             })
+//                                     } else {
+//                                         alert("Book Not Found");
+//                                         currentBook = -1;
+//                                         localStorage.setItem("currentBook", currentBook);
+//                                     }
+//                                 })
+//                         }
+//                     })
+//             }
+//         })
+//         // .then(res => (res.text())
+//         // .then((data) => {
+//         //     bookData = data;
+//         //     loadBook(bookIndex, goToPanel);
+//         //     // loadPage(false, currentBook, "stay");
+//         // }))
 // }
 
 // ---------  Load Book  ------------
 
-// let currentBook = 0;
-
-// if (localStorage.getItem("currentBook")) {
-//     currentBook = localStorage.getItem("currentBook");
-// }
-
-// function loadBook(e, bookIndex, goToPanel) {
-//     if (e) {
-//         bookIndex = findLibraryIndex(e)[1];
-//     }
-//     currentBook = bookIndex;
-//     localStorage.setItem("currentBook", currentBook);
-//     const bookData = htmlLibrary[bookIndex];
+// function loadBook(bookIndex, goToPanel) {
 //     let chapters;
-//     if (/href="#/.test(bookData) && /<hr\s*\/>/.test(bookData)) {
+//     if (/href="#/.test(bookData)) {
 //         chapters = bookData
-//             .replace(/[\s\S]*?<hr\s*\/>/, "")                      // remove everything before first hr tag
-//             .replace(/<hr\s*\/>[\s\S]*/, "")                       //remove everything after second hr tag
 //             .match(/href="#.[^n](.|[\s\S])+?(?=\s*<)/g)             // match any links
 //             .map((item, index) => [...item.split(/>\s*/), index])
 //             .filter((pair) => pair[1].length > 0);
@@ -162,7 +174,7 @@ resizeHeight();
 //         chapters = bookData
 //             .replace(/[\s\S]*?START\sOF\sTH..?\sPROJECT\sGUTENBERG.+?\*/, "")         // remove everything before first hr tag
 //             .replace(/END\sOF\sTH..?\sPROJECT\sGUTENBERG[\s\S]*/, "")              //remove everything after second hr tag
-//             .match(/(?<=<h2>).+(?=<\/h2>)/g)                              // match anything in an h2 tag
+//             .match(/(?<=<h2>)[\s\S]*?(?=<\/h2>)/g)                              // match anything in an h2 tag
 //             .map((item, index) => ["h2", item, index]);
 //     } else {
 //         chapters = bookData
@@ -174,60 +186,268 @@ resizeHeight();
 //                 })
 //             .map((item, index) => ["capital", item, index]);
 //     }
-    
-//     toHtml([displayLibrary[bookIndex]], chapterList, chapters)
+//     chapters.unshift(["restart-button", "START. Read from the Beginning"])
+//     toHtml([database[bookIndex]], chapterList, chapters)
+//     loadPage(false, currentBook, "stay")
 //     if (goToPanel !== "stay") {
 //         tabClick("book-tab");
 //     }
 // }
 
-// let currentPage = 0;
+// ---------  Restart Book  ------------
 
-// if (localStorage.getItem("currentPage")) {
-//     currentPage = localStorage.getItem("currentPage");
+// function restartBook(e) {
+//     bookMark = 0;
+//     if (libraryIndex >= 0) {
+//         libraryArray[libraryIndex].bookMark = bookMark;
+//         localStorage.setItem("libraryArray", JSON.stringify(libraryArray));
+//     }
+//     loadPage(e);
 // }
 
-// ---------  Load Page  ------------
+// ---------  Load Text  ------------
 
-// function loadPage(e, bookIndex, pageIndex, gotoPanel) {
+// let bookArray;
+
+// function loadPage(e, bookNumber, gotoPanel) {
+
 //     if (e) {
-//         bookIndex = findLibraryIndex(e)[1];
+//         bookNumber = parseInt(e.target.parentElement.parentElement.id.slice(7), 10);
 //     }
-//     const bookId = parseInt(Object.values(displayLibrary[bookIndex])[0], 10);
-//     const bookData = htmlLibrary[bookIndex];
-//     let bookHtml;
-//     if (/<!DOCTYPE\s+?html/.test(bookData)) {
-//         bookHtml = bookData
-//             .replace(/<style[\s\S]*?<\/style>/g, "")                   // delete inline styling
-//             .replace(/style=('|")[\s\S]*?>/g, ">")                     // delete style attributes
-//             .replace(/src="images/gi, `src="https://www.gutenberg.org/files/${bookId}/${bookId}-h/images`) 
+//     bookArray = [];
+    
+//     if (/<!DOCTYPE\s+?html/i.test(bookData)) {
+//         let tag = "split";
+//         bookData
+//             .replace(/<style[\s\S]*?<\/style>/gi, "")                   // delete inline styling
+//             .replace(/style=('|")[\s\S]*?>/gi, ">")                     // delete style attributes
+//             .replace(/^[\s\S]*?<body>/i, "")                            // delete everything before body tag
+//             .replace(/<\/body>[\s\S]*?$/i, "")                          // delete everything after /body tag
+//             .replace(/src="images/gi, `src="https://www.gutenberg.org/files/${bookNumber}/${bookNumber}-h/images`)
+//             .replace(/<br[\s\S]*?>/gi, "<hr>")
+//             .split(/(?=<)|(?<=>)/g)
+//             .forEach((item) => {
+//                 if (tag === "split" && !/^</.test(item)) {
+//                     bookArray.push(...item.split(/\s|\r|\n/g).filter(item => item))
+//                 } else if (tag === "split") {
+//                     bookArray.push(item)
+//                 } else {
+//                     bookArray[bookArray.length - 1] = bookArray[bookArray.length - 1] + item;
+//                 }
+//                 if (tag == "split" && /<a/i.test(item)) {
+//                     tag = "a";
+//                 } else if (tag == "split" && /<img/i.test(item)) {
+//                     tag = "img";
+//                 } else if (tag == "split" && /<i/i.test(item)) {
+//                     tag = "i";
+//                 } else if (tag == "split" && /<h\d/i.test(item)) {
+//                     tag = "h";
+//                 } else if (tag == "split" && /<table/i.test(item)) {
+//                     tag = "table";
+//                 } else if (tag == "a" && /<\/a/i.test(item)) {
+//                     tag = "split";
+//                 } else if (tag == "img") {
+//                     tag = "split";
+//                 } else if (tag == "i" && /<\/i/i.test(item)) {
+//                     tag = "split";
+//                 } else if (tag == "h" && /<\/h\d/i.test(item)) {
+//                     tag = "split";
+//                 } else if (tag == "table" && /<\/table/i.test(item)) {
+//                     tag = "split";
+//                 }
+//             })
 //     } else {
-//         bookHtml = bookData
-//             .replace(/\n\s\n/g, "<br><br>")
-//             .replace(/^/, "<i>")
-//             .replace(/(?<=[\s\S]*?START\sOF\sTH..?\sPROJECT\sGUTENBERG.+?)\*\*\*/, "***</i>")         // remove everything before first hr tag
-//             .replace(/END(?=\sOF\sTH..?\sPROJECT\sGUTENBERG[\s\S]*)/, "<i>END")              //remove everything after second hr tag
-//             .replace(/$/, "</i>")
+//         bookArray = bookData
+//             .replace(/\n\s\n/g, " <br><br> ")
+//             .split(/\s|\r|\n/g)
+//             .filter(item => item);
 //     }
-//     page.innerHTML = bookHtml;
 //     if (gotoPanel !== "stay") {
 //         tabClick("page-tab");
-//         page.scrollTo(0, 0);
+//         firstWord = -1;
+//     }
+//     paginate();
+//     currentBook = bookNumber;
+//     localStorage.setItem("currentBook", currentBook);
+//     libraryIndex = getLibraryIndex(currentBook);
+//     if (libraryIndex >= 0) {
+//         bookMark = libraryArray[libraryIndex].bookMark;
 //     }
 // }
+
+// ---------  Paginate  ------------
+
+// let bookMark = 0;
+
+// if (libraryIndex >= 0) {
+//     bookMark = libraryArray[libraryIndex].bookMark;
+// }
+// function getLibraryIndex(number) {
+//     return libraryArray.map((obj) => parseInt(obj.number, 10)).indexOf(parseInt(number, 10));
+// }
+
+
+// let firstWord = -1;
+// let lastWord = -1;
+// let wordIndex = -1;
+// let pageArray = [];
+
+// function nextPage() {
+//     if (pageTab.classList.contains("active")) {
+//         if (currentBook > 0 && wordIndex < bookArray.length) {
+            
+//             pageArray = [];
+//             page.innerHTML = pageArray;
+//             firstWord = lastWord + 1;
+//             wordIndex = firstWord;
+//             let skipGaps = true;
+//             while (page.scrollHeight <= page.offsetHeight && wordIndex < bookArray.length) {
+//                 if (skipGaps && /^(<br|<div|<hr|&nbsp)/i.test(bookArray[wordIndex])) {
+//                     wordIndex++;
+                    
+//                 } else if (!skipGaps && /<h1|<img|class="chapter"/i.test(bookArray[wordIndex])) {
+//                     break;
+//                 } else {
+//                     pageArray.push(bookArray[wordIndex]);
+//                     page.innerHTML = pageArray.join(" ");
+//                     wordIndex++;
+//                     skipGaps = false;
+//                 }
+                
+//             }
+            
+//             if (page.scrollHeight > page.offsetHeight && pageArray.length > 1) {
+//                 pageArray.pop();
+//                 wordIndex--;
+//             }
+//             page.innerHTML = pageArray.join(" ");
+//             lastWord = wordIndex - 1;
+//             bookMark = firstWord;
+
+//             if (libraryIndex >= 0) {
+//                 libraryArray[libraryIndex].bookMark = bookMark;
+//                 localStorage.setItem("libraryArray", JSON.stringify(libraryArray));
+//             }
+
+//             getProgress();
+//         }
+//     }
+// }
+
+// function paginate() {
+//     if (pageTab.classList.contains("active")) {
+//         if (currentBook > 0 && wordIndex < bookArray.length) {
+//             pageArray = [];
+//             page.innerHTML = pageArray;
+//             if (libraryIndex >= 0) {
+//                 firstWord = bookMark;
+//             }
+//             let skipGaps = true;
+//             wordIndex = firstWord;
+//             while (page.scrollHeight <= page.offsetHeight && wordIndex < bookArray.length) {
+                
+//                 if (skipGaps && /^(<br|<div|<hr|&nbsp)/i.test(bookArray[wordIndex])) {
+//                     wordIndex++;
+                    
+//                 } else if (!skipGaps && /<h1|<img|class="chapter"/i.test(bookArray[wordIndex])) {
+                    
+//                     break;
+                    
+//                 } else {
+//                     pageArray.push(bookArray[wordIndex]);
+//                     page.innerHTML = pageArray.join(" ");
+//                     wordIndex++;
+//                     skipGaps = false;
+//                 }
+//             }
+//             if (page.scrollHeight > page.offsetHeight && pageArray.length > 1) {
+//                 pageArray.pop();
+//                 wordIndex--;
+//             }
+            
+
+//             page.innerHTML = pageArray.join(" ");
+//             lastWord = wordIndex - 1;
+//             bookMark = firstWord;
+//             if (libraryIndex >= 0) {
+//                 libraryArray[libraryIndex].bookMark = bookMark;
+//                 localStorage.setItem("libraryArray", JSON.stringify(libraryArray));
+//             }
+
+//             getProgress();
+//         }
+//     }
+// }
+
+// function previousPage() {
+//     if (pageTab.classList.contains("active")) {
+//         if (currentBook > 0 && firstWord > 0) {
+//             pageArray = [];
+//             page.innerHTML = pageArray;
+//             lastWord = firstWord - 1;
+//             wordIndex = lastWord;
+//             let skipGaps = true;
+//             while (page.scrollHeight <= page.offsetHeight && wordIndex >= 0) {
+                
+//                 if (skipGaps && /^(<br|<div|<hr|&nbsp)/i.test(bookArray[wordIndex])) {
+//                     wordIndex--;
+//                 } else if (/<h1|<img|class="chapter"/i.test(bookArray[wordIndex])) {
+//                     pageArray.unshift(bookArray[wordIndex]);
+//                     page.innerHTML = pageArray.join(" ");
+//                     break;
+//                 } else {
+//                     pageArray.unshift(bookArray[wordIndex]);
+//                     page.innerHTML = pageArray.join(" ");
+//                     wordIndex--;
+//                     skipGaps = false;
+//                 }
+//             }
+//             if (page.scrollHeight > page.offsetHeight && pageArray.length > 1) {
+//                 pageArray.shift();
+//                 wordIndex += 2;
+//             }
+            
+
+//             page.innerHTML = pageArray.join(" ");
+//             firstWord = wordIndex;
+//             bookMark = firstWord;
+//             if (libraryIndex >= 0) {
+//                 libraryArray[libraryIndex].bookMark = bookMark;
+//                 localStorage.setItem("libraryArray", JSON.stringify(libraryArray));
+//             }
+
+//             getProgress();
+//         }
+//     }
+// }
+
+// ---------  Progress  ------------
+
+// function getProgress() {
+//     let progress = bookMark / bookArray.length;
+//     if (progress < 0.01) {
+//         progress = 0.01;
+//     } else if (progress > 1) {
+//         progress = 1;
+//     }
+//     console.log(progress)
+//     document.documentElement.style.setProperty('--progress', `${progress}`);
+// }
+
 
 // ---------  Search  ------------
 
-// let timeoutId = 0;
+let timeoutId = 0;
+let lastSearch = [];
 
-// function searchWithDelay(e) {
-//     if (timeoutId == 0) {
-//         timeoutId = setTimeout(searchFunction, 20, e);
-//     } else {
-//         clearTimeout(timeoutId);
-//         timeoutId = 0;
-//     }
-// }
+function searchWithDelay(e) {
+    if (timeoutId == 0) {
+        timeoutId = setTimeout(searchFunction, 20, e);
+    } else {
+        clearTimeout(timeoutId);
+        timeoutId = 0;
+    }
+}
 
 function searchFunction(e) {
     const inputValue = e.target.value
@@ -241,9 +461,10 @@ function searchFunction(e) {
             
         } 
     }
-    // timeoutId = 0;
+    timeoutId = 0;
     toHtml(searchResult, bookList);
-    // alert(searchResult[1].Title)
+    lastSearch = searchResult;
+
 }
 
 // function authorSearch(inputValue) {
@@ -258,6 +479,7 @@ function searchFunction(e) {
 //     }
 //     toHtml(authorSearchResult, bookList);
 //     tabClick("browse-tab");
+//     lastSearch = authorSearchResult;
 // }
 
 // function tagSearch(inputValue) {
@@ -273,13 +495,14 @@ function searchFunction(e) {
 //     }
 //     toHtml(tagSearchResult, bookList);
 //     tabClick("browse-tab");
+//     lastSearch = tagSearchResult;
 // }
 
 // ---------  Display Search Results  ------------
 
 function toHtml(bookArray, location, chapterArr) {
+    
     const htmlString = bookArray.map((book) => {
-
         const shortTitle = book.Title.split("\n")[0];
         let subTitle = "";
         if (book.Title.split("\n").length > 1) {
@@ -290,8 +513,8 @@ function toHtml(bookArray, location, chapterArr) {
             book.subTitle = book.Title.split("\n")[1];
         }
 
-        // const date = book.Issued.split("-").map((item) => item.replace(/^0+/, ''));
-        // let issued = [date[1], date[2], date[0]].join("-");
+        const date = book.Issued.split("-").map((item) => item.replace(/^0+/, ''));
+        let issued = [date[1], date[2], date[0]].join("-");
         // let issuedHtml = "";
 
         const author = book.Authors
@@ -305,6 +528,7 @@ function toHtml(bookArray, location, chapterArr) {
                 }
             })
             .join(''); 
+
         
         let tags = [...new Set(book.Subjects
             .concat(';', book.Bookshelves)                       //join subjects and bookshelves to one string
@@ -318,28 +542,34 @@ function toHtml(bookArray, location, chapterArr) {
         // let chapters = ``;
         // const chapterRegex = /(?<!\s(mr)|(ms)|(mrs)|(dr)|(sr)|(jr))\.\s+/i
         let bookNumber = Object.values(book)[0];
+
+        // let addDeleteId;
+        // let addDeleteLabel;
+        // if (getLibraryIndex(bookNumber) < 0) {
+        //     addDeleteId = "add";
+        //     addDeleteLabel = "fas fa-plus";
+        // } else {
+        //     addDeleteId = "delete";
+        //     addDeleteLabel = "fas fa-trash-alt";
+        // }
+
         // let buttonHtml;
         // if (location == bookList) {
+        //     bookNumber = "results" + bookNumber;
         //     buttonHtml = `
-        //         <div class="download-buttons">
-        //             <a class="button fas fa-download" id="download-htm" href="https://www.gutenberg.org/files/${bookNumber}/${bookNumber}-h/${bookNumber}-h.htm"></a>
-        //             <a class="button fas fa-download" id="download-html" href="https://www.gutenberg.org/cache/epub/${bookNumber}/pg${bookNumber}.html"></a>
-        //             <a class="button fas fa-download" id="download-txt" href="https://www.gutenberg.org/files/${bookNumber}/${bookNumber}.txt"></a>
-        //         </div>
-        //         <div class ="download-buttons">
-        //             <a>${bookNumber}-h.htm</a>
-        //             <a>pg${bookNumber}.html</a>
-        //             <a>${bookNumber}.txt</a>
-        //         </div>`
+        //     <div class="library-buttons">
+        //         <a class="button fas fa-book-open" id="read-button" ></a>
+        //         <a class="button ${addDeleteLabel}" id="${addDeleteId}-button" ></a>
+        //     </div>`
         // } else if (location == libraryList) {
         //     bookNumber = "library" + bookNumber;
         //     buttonHtml = `
         //         <div class="library-buttons">
         //             <a class="button fas fa-book-open" id="read-button" ></a>
-        //             <a class="button fas fa-trash-alt" id="delete-button" ></a>
+        //             <a class="button ${addDeleteLabel}" id="${addDeleteId}-button" ></a>
         //         </div>`
         // } else if (location == chapterList) {
-        //     issuedHtml = `<h3 class="issued">Issued as an eBook on ${issued}</h3>`
+        //     // issuedHtml = `<h3 class="issued">Issued as an eBook on ${issued}</h3>`
         //     bookNumber = "chapter" + bookNumber;
         //     tags = ``;
         //     chapters = chapterArr.map((chapter) => {
@@ -349,9 +579,12 @@ function toHtml(bookArray, location, chapterArr) {
         //     buttonHtml = `
         //         <div class="book-buttons">
         //             <a class="button fas fa-play" id="start-button" ></a>
-        //             <a class="button fas fa-bookmark" id="bookmark-button" ></a>
+        //             <a class="button ${addDeleteLabel}" id="${addDeleteId}-button" ></a>
         //         </div>`
         // }
+
+       // ${buttonHtml}
+     //   <div class="subjects">${chapters}</div>
         
         return `
         <div class="card" id="${bookNumber}">
@@ -359,13 +592,11 @@ function toHtml(bookArray, location, chapterArr) {
             <h3 class="sub-title">${subTitle}</h3>
             ${author}
             <div class="subjects">${tags}</div>
-          
-        
+
         </div>
         `;
     })
     .join('');
-
     location.innerHTML = htmlString;
 }
 
@@ -373,23 +604,42 @@ function toHtml(bookArray, location, chapterArr) {
 
 
 // function enterFullScreen() {
-//     if (page.requestFullscreen) {
-//         page.requestFullscreen();
+//     if (fullscreenWrapper.requestFullscreen) {
+//         fullscreenWrapper.requestFullscreen();
 //     } else if (elem.webkitRequestFullscreen) { /* Safari */
-//         page.webkitRequestFullscreen();
+//         fullscreenWrapper.webkitRequestFullscreen();
 //     } else if (elem.msRequestFullscreen) { /* IE11 */
-//         page.msRequestFullscreen();
+//         fullscreenWrapper.msRequestFullscreen();
+//     }
+// }
+
+// function exitFullScreen() {
+//     let isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
+//         (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+//         (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+//         (document.msFullscreenElement && document.msFullscreenElement !== null);
+//     if (isInFullScreen) {
+//         if (document.exitFullscreen) {
+//             document.exitFullscreen();
+//         } else if (document.webkitExitFullscreen) {
+//             document.webkitExitFullscreen();
+//         } else if (document.mozCancelFullScreen) {
+//             document.mozCancelFullScreen();
+//         } else if (document.msExitFullscreen) {
+//             document.msExitFullscreen();
+//         }
+//         setTimeout(resizeHeight, 100);   
 //     }
 // }
 
 // ---------  Focus Card  ------------
 
-// function focusCard(bookId) {
-//     if (document.getElementById(bookId).classList.contains("active")) {
-//         document.getElementById(bookId).classList.remove("active");
+// function focusCard(bookNumber) {
+//     if (document.getElementById(bookNumber).classList.contains("active")) {
+//         document.getElementById(bookNumber).classList.remove("active");
 //     } else {
 //         Array.from(card).forEach((item) => {item.classList.remove("active")});
-//         document.getElementById(bookId).classList.add("active");
+//         document.getElementById(bookNumber).classList.add("active");
 //     }
 
 // }
@@ -406,12 +656,33 @@ function toHtml(bookArray, location, chapterArr) {
 // ---------  Delete Book  ------------
 
 // function deleteBook(e) {
-//     let bookIndex = findLibraryIndex(e)[1];
-//     displayLibrary.splice(bookIndex, 1);
-//     htmlLibrary.splice(bookIndex, 1);
-//     toHtml(displayLibrary, libraryList);
-//     localStorage.setItem("displayLibrary", JSON.stringify(displayLibrary));
-//     localStorage.setItem("htmlLibrary", JSON.stringify(htmlLibrary));
+//     let bookNumber = parseInt(e.target.parentElement.parentElement.id.slice(7), 10);
+//     let bookIndex = getIndexFromNumber(bookNumber);
+//     let bookTitle = database[bookIndex].Title;
+//     if (confirm(`Remove "${bookTitle}" from your library?`)) {
+//         libraryArray.splice(libraryArray.map(obj => obj.number).indexOf(bookNumber), 1);
+//         toHtml(lastSearch, bookList);
+//         if (bookNumber = currentBook) {
+//             getBook(false, currentBook, "stay");
+//         }
+//         showLibrary();
+//         localStorage.setItem("libraryArray", JSON.stringify(libraryArray));
+//     }
+//     }
+
+
+// ---------  Add Book  ------------
+
+// function addBook(e) {
+//     let bookNumber = parseInt(e.target.parentElement.parentElement.id.slice(7), 10);
+//     libraryArray.unshift({number: bookNumber, bookMark: 0});
+//     toHtml(lastSearch, bookList);
+//     if (bookNumber = currentBook) {
+//         getBook(false, currentBook, "stay");
+//     }
+//     showLibrary();
+//     // tabClick("library-tab")
+//     localStorage.setItem("libraryArray", JSON.stringify(libraryArray));
 // }
 
 // ---------  Panel Navigation  ------------
@@ -421,32 +692,159 @@ function tabClick(id) {
     Array.from(panel).forEach((item) => {item.classList.remove("active")});
     document.getElementById(id).classList.add("active");
     document.getElementById(id.replace("tab", "panel")).classList.add("active");
-    // alert(id);
+
+    // currentTab = id;
+    // localStorage.setItem("tab", currentTab);
+
+    // if (id == "page-tab" && currentBook >= 0) {
+    //     loadPage(false, currentBook, "stay");
+    
+    // }
 }
 
 // ---------  Book Navigation  ------------
 
 // function previousBook() {
 //     if (currentBook == 0) {
-//         currentBook = displayLibrary.length;
+//         currentBook = libraryArray.length;
 //     }
-//     loadBook(false, currentBook -1);
+//     getBook(false, currentBook -1);
 // }
 
 // function nextBook() {
-//     if (currentBook == displayLibrary.length - 1) {
+//     if (currentBook == libraryArray.length - 1) {
 //         currentBook = -1;
 //     }
-//     loadBook(false, currentBook + 1);
+//     getBook(false, currentBook + 1);
+// }
+
+// ---------  Settings Panel  ------------
+
+// function toggleSettings() {
+//  if (settingsPanel.classList.contains("active")) {
+//     settingsPanel.classList.remove("active");
+//     settingsButton.classList.remove("active");
+//     document.documentElement.style.setProperty('--settings-height', "16px");
+//     localStorage.setItem("settings", JSON.stringify(settings))
+//     paginate();
+//  } else {
+//      settingsPanel.classList.add("active");
+//      settingsButton.classList.add("active");
+//      document.documentElement.style.setProperty('--settings-height', "216px");
+//      paginate();
+//     }
+// }
+
+// let timeout;
+
+// let settings = {
+//     "fontSlider": 16,
+//     "colorSlider": 200,
+//     "brightnessSlider": 160
+// }
+
+// function fontSize(e) {
+//     let sliderValue;
+//     if (e) {
+//         sliderValue = e.target.value;
+//     } else {
+//         sliderValue = settings.fontSlider;
+//     }
+//     let fontSize = sliderValue / 10;
+//     let controlSize = 12 + fontSize / 4;
+//     document.documentElement.style.setProperty('--font-size', `${fontSize}px`);
+//     document.documentElement.style.setProperty('--control-size', `${controlSize}px`);
+    
+//     clearTimeout(timeout)
+//     timeout = setTimeout(paginate, 100);
+
+//     settings.fontSlider = sliderValue;
+// }
+
+// function color(e) {
+//     let sliderValue;
+//     if (e) {
+//         sliderValue = e.target.value;
+//     } else {
+//         sliderValue = settings.colorSlider;
+//     }
+//     let hue = sliderValue;
+//     let saturation1 = 50;
+//     if (sliderValue <= 50) {
+//         saturation1 = sliderValue;
+//     }
+//     let saturation2 = saturation1 * 2;
+//     let saturation3 = saturation1 * 2;
+//     document.documentElement.style.setProperty('--hue', hue);
+//     document.documentElement.style.setProperty('--saturation1', `${saturation1}%`);
+//     document.documentElement.style.setProperty('--saturation2', `${saturation2}%`);
+//     document.documentElement.style.setProperty('--saturation3', `${saturation3}%`);
+
+//     settings.colorSlider = sliderValue;
+// }
+
+// function brightness(e) {
+//     let sliderValue;
+//     if (e) {
+//         sliderValue = e.target.value;
+//     } else {
+//         sliderValue = settings.brightnessSlider;
+//     }
+//     let bw;
+//     let opA;
+//     let opE;
+//     let txt;
+//     let lit;
+//     if (sliderValue > 128) {
+//         bw = 255;
+//         opA = sliderValue / 255
+//         opE = opA * 0.75
+//         txt = (255 - sliderValue) * 0.3;
+//         lit = sliderValue / 3 + 15;
+//     } else {
+//         bw = 0;
+//         opA = 1 - sliderValue / 255
+//         opE = opA * 0.75
+//         txt = (sliderValue / 2) + 36;
+//         lit = sliderValue / 4;
+//     }
+
+//     document.documentElement.style.setProperty('--bw', bw);
+//     document.documentElement.style.setProperty('--opA', opA);
+//     document.documentElement.style.setProperty('--opE', opE);
+//     document.documentElement.style.setProperty('--txt', `${txt}%`);
+//     document.documentElement.style.setProperty('--lit', `${lit}%`);
+
+//     settings.brightnessSlider = sliderValue;
 // }
 
 // ---------  After Page Load  ------------
 
-// function onLoad() {
-//     showLibrary();
-//     loadBook(false, currentBook, "stay");
-//     loadPage(false, currentBook, currentPage, "stay");
+function onLoad() {
+    alert("test # 4");
+    // showLibrary();
+    // if (currentBook >= 0) {
+    //     getBook(false, currentBook, "stay");
+    // }
+}
+
+// ---------  Open Last Tab  ------------
+// if (localStorage.getItem("settings")) {
+//     settings = JSON.parse(localStorage.getItem("settings"));
+//     fontSize();
+//     color();
+//     brightness();
 // }
+
+// ---------  Open Last Tab  ------------
+
+// let currentTab;
+
+// if (localStorage.getItem("tab")) {
+//     currentTab = localStorage.getItem("tab");
+//     tabClick(currentTab);
+// }
+
 
 // ---------  User Inputs  ------------
 
@@ -456,13 +854,22 @@ const eventMap = {
     // clear: { click: clearSearch },
     // card: { click: focusCard },
     // "card active": { click: focusCard },
-    // "read-button": { click: loadBook },
+    // "read-button": { click: getBook },
     // "delete-button": { click: deleteBook },
+    // "add-button": { click: addBook },
+    // "restart-button": { click: restartBook },
     // "start-button": { click: loadPage },
     // "full-screen-button": { click: enterFullScreen },
     // "previous-book-button": { click: previousBook },
     // "next-book-button": { click: nextBook },
+    // "next-page-button": { click: nextPage },
+    // "previous-page-button": { click: previousPage },
+    // "settings-button": { click: toggleSettings },
     tab: { click: tabClick }
+    // ArrowLeft: { keydown: previousPage },
+    // ArrowRight: { keydown: nextPage },
+    // ArrowUp: { keydown: toggleSettings },
+    // ArrowDown: { keydown: toggleSettings }
 }
 
 function eventHandler(ev) {
@@ -485,10 +892,49 @@ function eventHandler(ev) {
     document.body.addEventListener(eventType, eventHandler);
 })
 
-searchBar.addEventListener('input', searchFunction);
+searchBar.addEventListener('input', searchWithDelay);
+// fontSlider.addEventListener('input', fontSize);
+// colorSlider.addEventListener('input', color);
+// brightnessSlider.addEventListener('input', brightness);
 // document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 // window.addEventListener('load', getLocalLibrary);
 // window.addEventListener("load", () => setTimeout(function(){
 //     onLoad();
 // },50));
 // window.addEventListener('resize', resizeHeight);
+
+
+// ---------  Swipe  ------------
+
+// let touchstartX = 0
+// let touchendX = 0
+// let touchstartY = 0
+// let touchendY = 0
+
+// function handleGesture() {
+//     if (touchendX < touchstartX - 40 && touchendY - touchstartY < 80) nextPage()
+//     if (touchendX > touchstartX + 40 && touchendY - touchstartY < 80) previousPage()
+//     if (touchendY > touchstartY + 80 && touchendX - touchstartX < 80) {
+//     if (settingsPanel.classList.contains("active")) {
+//         toggleSettings();
+//     } else {
+//         exitFullScreen();
+//         }
+//     }
+//     if (touchendY < touchstartY - 80 && touchendX - touchstartX < 80) {
+//         if (!settingsPanel.classList.contains("active")) {
+//             toggleSettings();
+//         }
+//     }
+// }
+
+// page.addEventListener('touchstart', e => {
+//   touchstartX = e.changedTouches[0].screenX
+//   touchstartY = e.changedTouches[0].screenY
+// })
+
+// page.addEventListener('touchend', e => {
+//   touchendX = e.changedTouches[0].screenX
+//   touchendY = e.changedTouches[0].screenY
+//   handleGesture()
+// })

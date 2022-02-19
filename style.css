@@ -6,20 +6,20 @@
 
 :root {
     --element-border-radius: 0.5rem;
-    --element-background: rgba(255, 255, 255, 0.6);
-    --active-background: rgba(255, 255, 255, 0.8);
-    --fullscreen-background: #c7b294;
-    --fullscreen-text-color: #13253b;
-    --color-one: rgba(219,177,99,1);
-    --color-two: rgba(81,48,21,1);
-    --text-color: #555;
+    --element-background: rgba(var(--bw, 255), var(--bw, 255), var(--bw, 255), var(--opE, 0.47));
+    --active-background: rgba(var(--bw, 255), var(--bw, 255), var(--bw, 255), var(--opA, 0.6278));
+    --fullscreen-background: hsl(var(--hue, 200), var(--saturation3, 25%), var(--lit, 10%));
+    --fullscreen-text-color: hsl(var(--hue, 200), var(--saturation1, 50%), var(--txt, 28.5%));
+    --color-one: hsl(var(--hue, 200), var(--saturation1, 60%), 50%);
+    --color-two: hsl(var(--hue, 200), var(--saturation2, 80%), 30%);
+    --text-color: hsl(var(--hue, 200), var(--saturation1, 50%), var(--txt, 28.5%));
     --print-font: 'Libre Baskerville', serif;
     --control-font: 'Roboto', sans-serif;
   }
 
   html {
     background: linear-gradient(180deg, var(--color-one) 0%, var(--color-two) 100%);
-    font-size: 16px;
+    font-size: var(--font-size, 16px);
   }
 
 .wrapper {
@@ -66,14 +66,16 @@ h3 {
 }
 
 a {
-    all: unset;
+    /* text-decoration: none; */
+    color: var(--text-color);
+    /* all: unset;
     display: block;
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: pointer; */
 }
 
 #book-panel h1, 
@@ -104,18 +106,19 @@ a {
     margin: 4px;
     text-align: center;
     font-weight: 800;
-    font-size: 16px;
+    font-size: var(--control-size, 16px);
     font-family: var(--control-font);
     color: var(--color-one);
 }
 
 .control-bar .button {
     color: var(--color-two);
-    font-size: 20px;
+    font-size: calc(var(--control-size, 16px) + 4px);
     cursor: pointer;
 }
 
-.active.tab {
+.active.tab,
+.active.button {
     background: var(--active-background);
 }
 
@@ -132,6 +135,77 @@ a {
 .active.panel {
     display: flex;
 }
+
+#fullscreen-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    /* height: calc(var(--vh, 1vh) * 100 - 120px); */
+}
+
+
+#settings-panel {
+    display: none;
+    width: 100%;
+    height: 200px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+    padding: 4px;
+    background: var(--element-background);
+    border-radius: var(--element-border-radius);
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#settings-panel.active {
+    display: flex;
+}
+
+.slide-container {
+    width: 100%;
+    font-size: var(--control-size, 16px);
+    text-align: center;
+}
+
+.slider-label {
+    font-weight: 800;
+    font-family: var(--control-font);
+    color: var(--color-two);
+    padding: 10px;
+}
+
+.slider {
+    all: unset;
+    width: 90%;
+    height: 18px;
+    border-radius: 12px;
+    padding: 2px;
+    margin: 4px;
+    background-color: var(--color-two);
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 10px;
+    background-color: var(--element-background);
+    overflow: visible;
+    cursor: pointer;
+}
+
+  .slider::-moz-range-thumb { 
+    -moz-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 10px;
+    background-color: var(--element-background);
+    overflow: visible;
+    cursor: pointer;
+}
+
+.slider::-moz-focus-outer { border: 0; }
 
 .search {
     width: 100%;
@@ -235,7 +309,7 @@ a {
     width: 3rem;
     height: 50px;
     color: var(--text-color);
-    font-size: 20px;
+    font-size: calc(var(--control-size, 16px) + 4px);
     line-height: 50px;
     flex: 1;
 }
@@ -277,15 +351,18 @@ a {
 
 #page {
     width: 100%;
-    height: 100%;
+    height: calc(var(--vh, 1vh) * 100 - 120px - var(--settings-height, 8px));
     margin: 4px 0;
     padding: 1rem;
-    background: var(--element-background);
+    padding-bottom: 1.5rem;
+    background: var(--active-background);
     border-radius: var(--element-border-radius);
     overflow-x: hidden;
+    /* overflow-y: hidden; */
     white-space:normal;
     font-size: 1.1rem;
     line-height: 1.9rem;
+    position: relative;
 }
 
 .control-bar label {
@@ -309,7 +386,8 @@ a {
 
 #page div {
     width: 100%;
-    padding: 1rem 0;
+    min-height: 1rem;
+    /* padding: 1rem 0; */
 }
 
 #page pre {
@@ -320,42 +398,135 @@ a {
 }
 
 #page i {
-    padding: 1rem 0;
+    /* padding: 1rem 0; */
     font-family: var(--print-font);
     font-style: italic;
 }
 
 #page img {
-    width: 100%;
-    border-radius: var(--element-border-radius);
-    margin: 1rem 0;
+    object-fit: contain;
+    width: calc(100% + 2rem);
+    height: calc(100% - 2.6rem);
+    /* border-radius: var(--element-border-radius); */
+    margin: 1rem -1rem;
 }
 
 #page hr {
     all: unset;
     display: block;
-    height: 5rem;
+    height: 0;
 }
 
-#page a {
+#page .pagenum {
+    display: none;
+}
+
+/* Progress Bar */
+
+#page::after {
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: calc(var(--element-border-radius));
+    border-radius: calc(var(--element-border-radius) / 2);
+    width: 0;
+    width: calc(var(--progress, 0) * calc(calc(100% - 2rem) / 1));
+    height: var(--element-border-radius);
+    background-color: var(--text-color);
+}
+
+/* #start-button::after {
+    display: block;
+    content: "";
+    position: relative;
+    bottom: calc(var(--element-border-radius));
+    border-radius: calc(var(--element-border-radius) / 2);
+    width: calc(var(--progress, 1) * 100%);
+    height: var(--element-border-radius);
+    background-color: var(--text-color);
+} */
+
+/* #page span {
+    width: 100%;
+    height: 3rem;
+    padding: 1rem;
+    display: block;
+} */
+
+/* #page a {
     text-align: center;
-}
+    height: auto;
+} */
 
-
-#page:-webkit-full-screen {
-    background: var(--fullscreen-background);
+#fullscreen-wrapper:-webkit-full-screen {
+    background: linear-gradient(180deg, var(--color-one) 0%, var(--color-two) 100%);
     color: var(--fullscreen-text-color);
     border-radius: 0;
 }
 
-#page:-ms-fullscreen {
-    background: var(--fullscreen-background);
+#fullscreen-wrapper:-ms-fullscreen {
+    background: linear-gradient(180deg, var(--color-one) 0%, var(--color-two) 100%);
     color: var(--fullscreen-text-color);
     border-radius: 0;
 }
 
-#page:fullscreen {
-    background: var(--fullscreen-background);
+#fullscreen-wrapper:fullscreen {
+    background: linear-gradient(180deg, var(--color-one) 0%, var(--color-two) 100%);
     color: var(--fullscreen-text-color);
     border-radius: 0;
+}
+
+#fullscreen-wrapper:-webkit-full-screen #page {
+    height: calc(100vh - var(--settings-height, 8px) + 16px);
+    margin: 0;
+    border-radius: 0;
+}
+
+#fullscreen-wrapper:-ms-fullscreen #page {
+    height: calc(100vh - var(--settings-height, 8px) + 16px);
+    border-radius: 0;
+}
+
+#fullscreen-wrapper:fullscreen #page {
+    height: calc(100vh - var(--settings-height, 8px) + 16px);
+    border-radius: 0;
+}
+
+#fullscreen-wrapper:-webkit-full-screen #settings-panel {
+    margin-top: 0px;
+    border-radius: 0;
+}
+
+#fullscreen-wrapper:-ms-fullscreen #settings-panel {
+    margin-top: 0px;
+    border-radius: 0;
+}
+
+#fullscreen-wrapper:fullscreen #settings-panel {
+    margin-top: 0px;
+    border-radius: 0;
+}
+
+#fullscreen-wrapper:-webkit-full-screen #page::after {
+    margin-left: -1rem;
+    border-radius: 0;
+    width: calc(var(--progress, 0.01) * 100%);
+    height: calc(var(--element-border-radius) / 1.5);
+    bottom: 0;
+}
+
+#fullscreen-wrapper:-ms-fullscreen #page::after {
+    margin-left: -1rem;
+    border-radius: 0;
+    width: calc(var(--progress, 0.01) * 100%);
+    height: calc(var(--element-border-radius) / 1.5);
+    bottom: 0;
+}
+
+#fullscreen-wrapper:fullscreen #page::after {
+    margin-left: -1rem;
+    border-radius: 0;
+    width: calc(var(--progress, 0.01) * 100%);
+    height: calc(var(--element-border-radius) / 1.5);
+    bottom: 0;
 }
