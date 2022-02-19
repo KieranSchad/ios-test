@@ -5,7 +5,7 @@ fetch("https://kieranschad.github.io/e-book/library/pg_caralog_2022_01_28.json")
     .then(res => (res.json())
     .then(data => {
         database = data
-        // alert("fetch success");
+        alert("fetch success");
     }))
 
 // ---------  Get frequently used elements  ------------
@@ -25,7 +25,7 @@ const searchBar = document.getElementById("search-bar");
 function resizeHeight() {
     let vh = window.innerHeight * 0.01 - 0.001;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
-    // alert("resize success");
+    alert("resize success");
 }
 
 resizeHeight();
