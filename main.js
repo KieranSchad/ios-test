@@ -1,18 +1,18 @@
 
 // ---------  Get Gutenberg Project catalog  ------------
-
+let database;
 fetch("https://kieranschad.github.io/e-book/library/pg_caralog_2022_01_28.json")
     .then(res => (res.json())
     .then(data => {
-        // database = data
-        alert("fetch success");
+        database = data
+        // alert("fetch success");
     }))
 
 // ---------  Get frequently used elements  ------------
 
 const tab = document.getElementsByClassName('tab');
 const panel = document.getElementsByClassName('panel');
-// const bookList = document.getElementById("book-list");
+const bookList = document.getElementById("book-list");
 // const libraryList = document.getElementById("library-list");
 // const chapterList = document.getElementById("chapter-list");
 // let card = document.getElementsByClassName('card');
@@ -25,7 +25,7 @@ const searchBar = document.getElementById("search-bar");
 function resizeHeight() {
     let vh = window.innerHeight * 0.01 - 0.001;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
-    alert("resize success");
+    // alert("resize success");
 }
 
 resizeHeight();
@@ -231,19 +231,18 @@ resizeHeight();
 
 function searchFunction(e) {
     const inputValue = e.target.value
-    alert(inputValue);
-    //     .toLowerCase().split(" ")
-    //     .filter(item => item) ;
-    // let searchResult = [];
-    // for (let i = 0; i < database.length && searchResult.length < 100; i++) {
-    //     const bookData = Object.values(database[i]).join(" ").toLowerCase();
-    //     if (inputValue.every(el => bookData.includes(el))) {
-    //         searchResult.push({...database[i]});
+        .toLowerCase().split(" ")
+        .filter(item => item) ;
+    let searchResult = [];
+    for (let i = 0; i < database.length && searchResult.length < 100; i++) {
+        const bookData = Object.values(database[i]).join(" ").toLowerCase();
+        if (inputValue.every(el => bookData.includes(el))) {
+            searchResult.push({...database[i]});
             
-    //     } 
-    // }
-    // // timeoutId = 0;
-    // toHtml(searchResult, bookList);
+        } 
+    }
+    // timeoutId = 0;
+    toHtml(searchResult, bookList);
 
 }
 
@@ -278,98 +277,98 @@ function searchFunction(e) {
 
 // ---------  Display Search Results  ------------
 
-// function toHtml(bookArray, location, chapterArr) {
-//     const htmlString = bookArray.map((book) => {
+function toHtml(bookArray, location, chapterArr) {
+    const htmlString = bookArray.map((book) => {
 
-//         const shortTitle = book.Title.split("\n")[0];
-//         let subTitle = "";
-//         if (book.Title.split("\n").length > 1) {
-//             subTitle = book.Title.split("\n")[1];
-//         }
+        const shortTitle = book.Title.split("\n")[0];
+        let subTitle = "";
+        if (book.Title.split("\n").length > 1) {
+            subTitle = book.Title.split("\n")[1];
+        }
 
-//         if (book.Title.split("\n").length > 1) {
-//             book.subTitle = book.Title.split("\n")[1];
-//         }
+        if (book.Title.split("\n").length > 1) {
+            book.subTitle = book.Title.split("\n")[1];
+        }
 
-//         const date = book.Issued.split("-").map((item) => item.replace(/^0+/, ''));
-//         let issued = [date[1], date[2], date[0]].join("-");
-//         let issuedHtml = "";
+        const date = book.Issued.split("-").map((item) => item.replace(/^0+/, ''));
+        let issued = [date[1], date[2], date[0]].join("-");
+        let issuedHtml = "";
 
-//         const author = book.Authors
-//             .split(/;\s*/g).map((item) => item.split(/,s*/g))
-//             .filter(item => item)
-//             .map((aut) => {
-//                 if (aut.length == 2) {
-//                     return `<h2 class="author" id="${aut.join(",")}">${aut[0]}</h2>`;
-//                 } else {
-//                     return `<h2 class="author" id="${aut.join(",")}">${aut.splice(0, 2).reverse().join(" ")}</h2>`;          
-//                 }
-//             })
-//             .join(''); 
+        const author = book.Authors
+            .split(/;\s*/g).map((item) => item.split(/,s*/g))
+            .filter(item => item)
+            .map((aut) => {
+                if (aut.length == 2) {
+                    return `<h2 class="author" id="${aut.join(",")}">${aut[0]}</h2>`;
+                } else {
+                    return `<h2 class="author" id="${aut.join(",")}">${aut.splice(0, 2).reverse().join(" ")}</h2>`;          
+                }
+            })
+            .join(''); 
         
-//         let tags = [...new Set(book.Subjects
-//             .concat(';', book.Bookshelves)                       //join subjects and bookshelves to one string
-//             .split(/;\s*|\s*--\s*|\.\s+|\,\s+/ig))]              //split into array based on regex
-//             .filter(item => item)                                //filter out empty strings
-//             .map((tag) => {                                      //asign html to each array item
-//                 return `<button type="button" class="tag" id="${tag}">${tag}</button>`;          
-//             })
-//             .join('');                                           //convert array to string
+        let tags = [...new Set(book.Subjects
+            .concat(';', book.Bookshelves)                       //join subjects and bookshelves to one string
+            .split(/;\s*|\s*--\s*|\.\s+|\,\s+/ig))]              //split into array based on regex
+            .filter(item => item)                                //filter out empty strings
+            .map((tag) => {                                      //asign html to each array item
+                return `<button type="button" class="tag" id="${tag}">${tag}</button>`;          
+            })
+            .join('');                                           //convert array to string
 
-//         let chapters = ``;
-//         const chapterRegex = /(?<!\s(mr)|(ms)|(mrs)|(dr)|(sr)|(jr))\.\s+/i
-//         let bookNumber = Object.values(book)[0];
-//         let buttonHtml;
-//         if (location == bookList) {
-//             buttonHtml = `
-//                 <div class="download-buttons">
-//                     <a class="button fas fa-download" id="download-htm" href="https://www.gutenberg.org/files/${bookNumber}/${bookNumber}-h/${bookNumber}-h.htm"></a>
-//                     <a class="button fas fa-download" id="download-html" href="https://www.gutenberg.org/cache/epub/${bookNumber}/pg${bookNumber}.html"></a>
-//                     <a class="button fas fa-download" id="download-txt" href="https://www.gutenberg.org/files/${bookNumber}/${bookNumber}.txt"></a>
-//                 </div>
-//                 <div class ="download-buttons">
-//                     <a>${bookNumber}-h.htm</a>
-//                     <a>pg${bookNumber}.html</a>
-//                     <a>${bookNumber}.txt</a>
-//                 </div>`
-//         } else if (location == libraryList) {
-//             bookNumber = "library" + bookNumber;
-//             buttonHtml = `
-//                 <div class="library-buttons">
-//                     <a class="button fas fa-book-open" id="read-button" ></a>
-//                     <a class="button fas fa-trash-alt" id="delete-button" ></a>
-//                 </div>`
-//         } else if (location == chapterList) {
-//             issuedHtml = `<h3 class="issued">Issued as an eBook on ${issued}</h3>`
-//             bookNumber = "chapter" + bookNumber;
-//             tags = ``;
-//             chapters = chapterArr.map((chapter) => {
-//                 return `
-//                     <button type="button" class="chapterButton" id="${chapter[0]}">${chapter[1].replace(chapterRegex, "<br>")}</button>`
-//             }).join("");
-//             buttonHtml = `
-//                 <div class="book-buttons">
-//                     <a class="button fas fa-play" id="start-button" ></a>
-//                     <a class="button fas fa-bookmark" id="bookmark-button" ></a>
-//                 </div>`
-//         }
+        let chapters = ``;
+        const chapterRegex = /(?<!\s(mr)|(ms)|(mrs)|(dr)|(sr)|(jr))\.\s+/i
+        let bookNumber = Object.values(book)[0];
+        let buttonHtml;
+        if (location == bookList) {
+            buttonHtml = `
+                <div class="download-buttons">
+                    <a class="button fas fa-download" id="download-htm" href="https://www.gutenberg.org/files/${bookNumber}/${bookNumber}-h/${bookNumber}-h.htm"></a>
+                    <a class="button fas fa-download" id="download-html" href="https://www.gutenberg.org/cache/epub/${bookNumber}/pg${bookNumber}.html"></a>
+                    <a class="button fas fa-download" id="download-txt" href="https://www.gutenberg.org/files/${bookNumber}/${bookNumber}.txt"></a>
+                </div>
+                <div class ="download-buttons">
+                    <a>${bookNumber}-h.htm</a>
+                    <a>pg${bookNumber}.html</a>
+                    <a>${bookNumber}.txt</a>
+                </div>`
+        } else if (location == libraryList) {
+            bookNumber = "library" + bookNumber;
+            buttonHtml = `
+                <div class="library-buttons">
+                    <a class="button fas fa-book-open" id="read-button" ></a>
+                    <a class="button fas fa-trash-alt" id="delete-button" ></a>
+                </div>`
+        } else if (location == chapterList) {
+            issuedHtml = `<h3 class="issued">Issued as an eBook on ${issued}</h3>`
+            bookNumber = "chapter" + bookNumber;
+            tags = ``;
+            chapters = chapterArr.map((chapter) => {
+                return `
+                    <button type="button" class="chapterButton" id="${chapter[0]}">${chapter[1].replace(chapterRegex, "<br>")}</button>`
+            }).join("");
+            buttonHtml = `
+                <div class="book-buttons">
+                    <a class="button fas fa-play" id="start-button" ></a>
+                    <a class="button fas fa-bookmark" id="bookmark-button" ></a>
+                </div>`
+        }
         
-//         return `
-//         <div class="card" id="${bookNumber}">
-//             <h1 class="title">${shortTitle}</h1>
-//             <h3 class="sub-title">${subTitle}</h3>
-//             ${issuedHtml}
-//             ${author}
-//             <div class="subjects">${tags}</div>
-//             ${buttonHtml}
-//             <div class="subjects">${chapters}</div>
-//         </div>
-//         `;
-//     })
-//     .join('');
+        return `
+        <div class="card" id="${bookNumber}">
+            <h1 class="title">${shortTitle}</h1>
+            <h3 class="sub-title">${subTitle}</h3>
+            ${issuedHtml}
+            ${author}
+            <div class="subjects">${tags}</div>
+            ${buttonHtml}
+            <div class="subjects">${chapters}</div>
+        </div>
+        `;
+    })
+    .join('');
 
-//     location.innerHTML = htmlString;
-// }
+    location.innerHTML = htmlString;
+}
 
 // ---------  Full Screen  ------------
 
@@ -423,7 +422,7 @@ function tabClick(id) {
     Array.from(panel).forEach((item) => {item.classList.remove("active")});
     document.getElementById(id).classList.add("active");
     document.getElementById(id.replace("tab", "panel")).classList.add("active");
-    alert(id);
+    // alert(id);
 }
 
 // ---------  Book Navigation  ------------
