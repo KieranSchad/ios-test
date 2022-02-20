@@ -539,8 +539,8 @@ function toHtml(bookArray, location, chapterArr) {
             })
             .join('');                                           //convert array to string
 
-        // let chapters = ``;
-        // const chapterRegex = /(?<!\s(mr)|(ms)|(mrs)|(dr)|(sr)|(jr))\.\s+/i
+        let chapters = ``;
+        const chapterRegex = /(?<!\s(mr)|(ms)|(mrs)|(dr)|(sr)|(jr))\.\s+/i
         let bookNumber = Object.values(book)[0];
 
         let addDeleteId = "add";
@@ -562,29 +562,28 @@ function toHtml(bookArray, location, chapterArr) {
                 <a class="button ${addDeleteLabel}" id="${addDeleteId}-button" ></a>
             </div>`
         } else if (location == libraryList) {
-            // bookNumber = "library" + bookNumber;
-            // buttonHtml = `
-            //     <div class="library-buttons">
-            //         <a class="button fas fa-book-open" id="read-button" ></a>
-            //         <a class="button ${addDeleteLabel}" id="${addDeleteId}-button" ></a>
-            //     </div>`
+            bookNumber = "library" + bookNumber;
+            buttonHtml = `
+                <div class="library-buttons">
+                    <a class="button fas fa-book-open" id="read-button" ></a>
+                    <a class="button ${addDeleteLabel}" id="${addDeleteId}-button" ></a>
+                </div>`
         } else if (location == chapterList) {
-            // issuedHtml = `<h3 class="issued">Issued as an eBook on ${issued}</h3>`
-            // bookNumber = "chapter" + bookNumber;
-            // tags = ``;
-            // chapters = chapterArr.map((chapter) => {
-            //     return `
-            //         <button type="button" class="chapterButton" id="${chapter[0]}">${chapter[1].replace(chapterRegex, "<br>")}</button>`
-            // }).join("");
-            // buttonHtml = `
-            //     <div class="book-buttons">
-            //         <a class="button fas fa-play" id="start-button" ></a>
-            //         <a class="button ${addDeleteLabel}" id="${addDeleteId}-button" ></a>
-            //     </div>`
+            issuedHtml = `<h3 class="issued">Issued as an eBook on ${issued}</h3>`
+            bookNumber = "chapter" + bookNumber;
+            tags = ``;
+            chapters = chapterArr.map((chapter) => {
+                return `
+                    <button type="button" class="chapterButton" id="${chapter[0]}">${chapter[1].replace(chapterRegex, "<br>")}</button>`
+            }).join("");
+            buttonHtml = `
+                <div class="book-buttons">
+                    <a class="button fas fa-play" id="start-button" ></a>
+                    <a class="button ${addDeleteLabel}" id="${addDeleteId}-button" ></a>
+                </div>`
         }
 
-       // ${buttonHtml}
-     //   <div class="subjects">${chapters}</div>
+ 
         
         return `
         <div class="card" id="${bookNumber}">
@@ -592,7 +591,8 @@ function toHtml(bookArray, location, chapterArr) {
             <h3 class="sub-title">${subTitle}</h3>
             ${author}
             <div class="subjects">${tags}</div>
-
+            ${buttonHtml}
+            <div class="subjects">${chapters}</div>
         </div>
         `;
     })
@@ -821,7 +821,7 @@ function tabClick(id) {
 // ---------  After Page Load  ------------
 
 function onLoad() {
-    alert("test # 5");
+    alert("test # 6");
     // showLibrary();
     // if (currentBook >= 0) {
     //     getBook(false, currentBook, "stay");
