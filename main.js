@@ -540,7 +540,7 @@ function toHtml(bookArray, location, chapterArr) {
             .join('');                                           //convert array to string
 
         let chapters = "";
-        // const chapterRegex = /(?<!\s(mr)|(ms)|(mrs)|(dr)|(sr)|(jr))\.\s+/i;
+        const chapterRegex = /(?<!\s(mr)|(ms)|(mrs)|(dr)|(sr)|(jr))\.\s+/i;
         let bookNumber = 1
         
         // Object.values(book)[0];
@@ -823,7 +823,7 @@ function tabClick(id) {
 // ---------  After Page Load  ------------
 
 function onLoad() {
-    alert("test # 9");
+    alert("test # 10");
     // showLibrary();
     // if (currentBook >= 0) {
     //     getBook(false, currentBook, "stay");
