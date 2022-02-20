@@ -543,8 +543,8 @@ function toHtml(bookArray, location, chapterArr) {
         // const chapterRegex = /(?<!\s(mr)|(ms)|(mrs)|(dr)|(sr)|(jr))\.\s+/i
         let bookNumber = Object.values(book)[0];
 
-        // let addDeleteId;
-        // let addDeleteLabel;
+        let addDeleteId = "add";
+        let addDeleteLabel = "Add";
         // if (getLibraryIndex(bookNumber) < 0) {
         //     addDeleteId = "add";
         //     addDeleteLabel = "fas fa-plus";
@@ -553,35 +553,35 @@ function toHtml(bookArray, location, chapterArr) {
         //     addDeleteLabel = "fas fa-trash-alt";
         // }
 
-        // let buttonHtml;
-        // if (location == bookList) {
-        //     bookNumber = "results" + bookNumber;
-        //     buttonHtml = `
-        //     <div class="library-buttons">
-        //         <a class="button fas fa-book-open" id="read-button" ></a>
-        //         <a class="button ${addDeleteLabel}" id="${addDeleteId}-button" ></a>
-        //     </div>`
-        // } else if (location == libraryList) {
-        //     bookNumber = "library" + bookNumber;
-        //     buttonHtml = `
-        //         <div class="library-buttons">
-        //             <a class="button fas fa-book-open" id="read-button" ></a>
-        //             <a class="button ${addDeleteLabel}" id="${addDeleteId}-button" ></a>
-        //         </div>`
-        // } else if (location == chapterList) {
-        //     // issuedHtml = `<h3 class="issued">Issued as an eBook on ${issued}</h3>`
-        //     bookNumber = "chapter" + bookNumber;
-        //     tags = ``;
-        //     chapters = chapterArr.map((chapter) => {
-        //         return `
-        //             <button type="button" class="chapterButton" id="${chapter[0]}">${chapter[1].replace(chapterRegex, "<br>")}</button>`
-        //     }).join("");
-        //     buttonHtml = `
-        //         <div class="book-buttons">
-        //             <a class="button fas fa-play" id="start-button" ></a>
-        //             <a class="button ${addDeleteLabel}" id="${addDeleteId}-button" ></a>
-        //         </div>`
-        // }
+        let buttonHtml;
+        if (location == bookList) {
+            bookNumber = "results" + bookNumber;
+            buttonHtml = `
+            <div class="library-buttons">
+                <a class="button fas fa-book-open" id="read-button" ></a>
+                <a class="button ${addDeleteLabel}" id="${addDeleteId}-button" ></a>
+            </div>`
+        } else if (location == libraryList) {
+            // bookNumber = "library" + bookNumber;
+            // buttonHtml = `
+            //     <div class="library-buttons">
+            //         <a class="button fas fa-book-open" id="read-button" ></a>
+            //         <a class="button ${addDeleteLabel}" id="${addDeleteId}-button" ></a>
+            //     </div>`
+        } else if (location == chapterList) {
+            // issuedHtml = `<h3 class="issued">Issued as an eBook on ${issued}</h3>`
+            // bookNumber = "chapter" + bookNumber;
+            // tags = ``;
+            // chapters = chapterArr.map((chapter) => {
+            //     return `
+            //         <button type="button" class="chapterButton" id="${chapter[0]}">${chapter[1].replace(chapterRegex, "<br>")}</button>`
+            // }).join("");
+            // buttonHtml = `
+            //     <div class="book-buttons">
+            //         <a class="button fas fa-play" id="start-button" ></a>
+            //         <a class="button ${addDeleteLabel}" id="${addDeleteId}-button" ></a>
+            //     </div>`
+        }
 
        // ${buttonHtml}
      //   <div class="subjects">${chapters}</div>
@@ -821,7 +821,7 @@ function tabClick(id) {
 // ---------  After Page Load  ------------
 
 function onLoad() {
-    alert("test # 4");
+    alert("test # 5");
     // showLibrary();
     // if (currentBook >= 0) {
     //     getBook(false, currentBook, "stay");
