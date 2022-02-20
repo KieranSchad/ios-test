@@ -539,9 +539,9 @@ function toHtml(bookArray, location, chapterArr) {
             })
             .join('');                                           //convert array to string
 
-        let chapters = ``;
-        const chapterRegex = /(?<!\s(mr)|(ms)|(mrs)|(dr)|(sr)|(jr))\.\s+/i;
-        let bookNumber = Object.values(book)[0];
+        // let chapters = ``;
+        // const chapterRegex = /(?<!\s(mr)|(ms)|(mrs)|(dr)|(sr)|(jr))\.\s+/i;
+        // let bookNumber = Object.values(book)[0];
 
         let addDeleteId = "add";
         let addDeleteLabel = "Add";
@@ -821,7 +821,7 @@ function tabClick(id) {
 // ---------  After Page Load  ------------
 
 function onLoad() {
-    alert("test # 8");
+    alert("test # 9");
     // showLibrary();
     // if (currentBook >= 0) {
     //     getBook(false, currentBook, "stay");
