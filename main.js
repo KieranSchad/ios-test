@@ -539,9 +539,11 @@ function toHtml(bookArray, location, chapterArr) {
             })
             .join('');                                           //convert array to string
 
-        // let chapters = ``;
+        let chapters = "";
         // const chapterRegex = /(?<!\s(mr)|(ms)|(mrs)|(dr)|(sr)|(jr))\.\s+/i;
-        // let bookNumber = Object.values(book)[0];
+        let bookNumber = 1
+        
+        // Object.values(book)[0];
 
         let addDeleteId = "add";
         let addDeleteLabel = "Add";
