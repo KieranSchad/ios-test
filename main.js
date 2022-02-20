@@ -576,7 +576,7 @@ function toHtml(bookArray, location, chapterArr) {
             tags = ``;
             chapters = chapterArr.map((chapter) => {
                 return `
-                    <button type="button" class="chapterButton" id="${chapter[0]}">${chapter[1].replace(/\./, "<br>")}</button>`
+                    <button type="button" class="chapterButton" id="${chapter[0]}">${chapter[1].replace(/(?<!\s(mr)|(ms)|(mrs)|(dr)|(sr)|(jr))\.\s+/i, "<br>")}</button>`
             }).join("");
             buttonHtml = `
                 <div class="book-buttons">
@@ -823,7 +823,7 @@ function tabClick(id) {
 // ---------  After Page Load  ------------
 
 function onLoad() {
-    alert("test # 11");
+    alert("test # 12");
     // showLibrary();
     // if (currentBook >= 0) {
     //     getBook(false, currentBook, "stay");
